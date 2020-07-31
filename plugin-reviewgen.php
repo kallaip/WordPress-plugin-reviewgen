@@ -26,7 +26,10 @@ add_action( 'plugins_loaded', 'reviewgen_admin_settings' );
 */
 
 function reviewgen_admin_settings() {
-   $plugin = new reviewGen_Submenu( new reviewGen_Submenu_Page() );
+   
+   $serializer = new Serializer();
+   $serializer->init();
+   $plugin = new reviewGen_Submenu( new reviewGen_Submenu_Page($serializer) );
    $plugin->init();
 }
  ?>

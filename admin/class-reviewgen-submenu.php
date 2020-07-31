@@ -34,7 +34,7 @@ class reviewGen_Submenu {
     }
  
     /**
-     * Adds a submenu for this plugin to the 'Tools' menu.
+     * Adds a submenu for this plugin to the 'Settings' menu.
      */
     public function init() {
          add_action( 'admin_menu', array( $this, 'add_options_page' ) );
@@ -47,7 +47,7 @@ class reviewGen_Submenu {
     public function add_options_page() {
  
         add_options_page(
-            'Review Generator Page',
+            'Review Generator Settings Page',
             'Review Generator',
             'manage_options',
             'reviewgen-admin-page',
