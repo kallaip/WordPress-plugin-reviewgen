@@ -11,6 +11,8 @@
 if ( ! defined( 'WPINC' ) ) {
    die;
 }
+// Include the shared dependency.
+include_once( plugin_dir_path( __FILE__ ) . 'shared/class-deserializer.php' );
 
 // Include the dependencies needed to instantiate the plugin.
 foreach ( glob( plugin_dir_path( __FILE__ ) . 'admin/*.php' ) as $file ) {
@@ -29,7 +31,8 @@ function reviewgen_admin_settings() {
    
    $serializer = new Serializer();
    $serializer->init();
-   $plugin = new reviewGen_Submenu( new reviewGen_Submenu_Page($serializer) );
+   $deserializer = new Deserializer();
+   $plugin = new reviewGen_Submenu( new reviewGen_Submenu_Page( $deserializer ) );
    $plugin->init();
 }
  ?>
