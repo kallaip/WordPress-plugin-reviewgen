@@ -66,6 +66,18 @@ class templatePool
       return JSON.stringify( this.data );
    }
 
+   get searchByUUID( uuid )
+   {
+      for ( i= 0; i< this.data.length; i++)
+      {
+         if ( this.data[i]['uuid'] == uuid )
+         {
+            return i;
+         }
+      }
+      return undefined;
+   }
+
    set_template ( n, templdata )
    {
       if ( this.data.length > n ) 
@@ -76,7 +88,10 @@ class templatePool
    
    newtemplate() 
    {
-      
+      index = this.data.length;
+      this.data.push( this.templates_skeleton[0] );
+      this.data[ index ][ 'uuid' ] = this.generateUUID();
+      return index;
    }
    
    generateUUID() 
