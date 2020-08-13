@@ -36,12 +36,17 @@ class templatePool
 
    constructor (dataSource) 
    {
-      this.data = JSON.parse( dataSource );
-      if ( this.data.length == 0 ) 
+      
+      if ( dataSource.length != 0 ) 
+      {
+         this.data = JSON.parse( dataSource );
+      } 
+      else
       {
          this.data = this.templates_skeleton;
          this.data[0]['uuid'] = this.generateUUID();
       }
+
    }
    
    get length()
@@ -49,7 +54,7 @@ class templatePool
       return this.data.length;
    }
    
-   get template ( n )
+   template ( n )
    {
       if ( n < this.data.length )
       {
@@ -61,12 +66,12 @@ class templatePool
       }
    }
 
-   get save()
+   save()
    {
       return JSON.stringify( this.data );
    }
 
-   get searchByUUID( uuid )
+   searchByUUID( uuid )
    {
       for ( i= 0; i< this.data.length; i++)
       {
