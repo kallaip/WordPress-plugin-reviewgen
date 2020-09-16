@@ -3,47 +3,45 @@ class templatePool
 {
    data = [];  
    templates_skeleton =
-   [
-      { 
-         name: "template name", 
+   { 
+         name: "Default generated template", 
          uuid: "1", 
          toplevel: "<H1>Blbla</H1><!--[items]--><p>blalbala</p>",
          recurring: "<H1><!--[field0]--></H1><p><!--[field1]--></p>",
-         items: [
-            { item_name: "field0", item_col: 0 },
-            { item_name: "field1", item_col: 1 },
-            { item_name: "field2", item_col: 2 },
-            { item_name: "field3", item_col: 3 },
-            { item_name: "field4", item_col: 4 },
-            { item_name: "field5", item_col: 5 },
-            { item_name: "field6", item_col: 6 },
-            { item_name: "field7", item_col: 7 },
-            { item_name: "field8", item_col: 8 },
-            { item_name: "field9", item_col: 9 },
-            { item_name: "field10", item_col: 10 },
-            { item_name: "field11", item_col: 11 },
-            { item_name: "field12", item_col: 12 },
-            { item_name: "field13", item_col: 13 },
-            { item_name: "field14", item_col: 14 },
-            { item_name: "field15", item_col: 15 },
-            { item_name: "field16", item_col: 16 },
-            { item_name: "field17", item_col: 17 },
-            { item_name: "field18", item_col: 18 },
-            { item_name: "field19", item_col: 19 }
+         fields: [
+            { field_name: "field0", field_col: 0 },
+            { field_name: "field1", field_col: 1 },
+            { field_name: "field2", field_col: 2 },
+            { field_name: "field3", field_col: 3 },
+            { field_name: "field4", field_col: 4 },
+            { field_name: "field5", field_col: 5 },
+            { field_name: "field6", field_col: 6 },
+            { field_name: "field7", field_col: 7 },
+            { field_name: "field8", field_col: 8 },
+            { field_name: "field9", field_col: 9 },
+            { field_name: "field10", field_col: 10 },
+            { field_name: "field11", field_col: 11 },
+            { field_name: "field12", field_col: 12 },
+            { field_name: "field13", field_col: 13 },
+            { field_name: "field14", field_col: 14 },
+            { field_name: "field15", field_col: 15 },
+            { field_name: "field16", field_col: 16 },
+            { field_name: "field17", field_col: 17 },
+            { field_name: "field18", field_col: 18 },
+            { field_name: "field19", field_col: 19 }
          ]
-      }
-   ]; 
-
+      }; 
+  
    constructor (dataSource) 
    {
       
       if ( dataSource.length != 0 ) 
       {
-         this.data = JSON.parse( dataSource );
+         this.data = JSON.parse( this.hex_utf8 ( dataSource ) );
       } 
       else
       {
-         this.data = this.templates_skeleton;
+         this.datapush( this.templates_skeleton );
          this.data[0]['uuid'] = this.generateUUID();
       }
 
@@ -52,6 +50,11 @@ class templatePool
    get length()
    {
       return this.data.length;
+   }
+
+   get elements()
+   {
+      return this.data;
    }
    
    template ( n )
@@ -68,12 +71,12 @@ class templatePool
 
    save()
    {
-      return JSON.stringify( this.data );
+      return this.utf8_hex( JSON.stringify( this.data ) );
    }
 
    searchByUUID( uuid )
    {
-      for ( i= 0; i< this.data.length; i++)
+      for ( var i= 0; i< this.data.length; i++)
       {
          if ( this.data[i]['uuid'] == uuid )
          {
@@ -90,13 +93,54 @@ class templatePool
          this.data[n] = templdata;
       }
    }
-   
-   newtemplate() 
+ 
+   set_toplevel ( n, templdata )
    {
-      index = this.data.length;
-      this.data.push( this.templates_skeleton[0] );
+      if ( this.data.length > n ) 
+      {  
+         this.data[n]['toplevel'] = templdata;
+      }
+   }
+   
+   set_recurring ( n, templdata )
+   {
+      if ( this.data.length > n ) 
+      {  
+         this.data[n]['recurring'] = templdata;
+      }
+   }
+   set_fieldlist ( n, templdata )
+   {
+      if ( this.data.length > n ) 
+      {  
+         this.data[n]['fields'] = templdata;
+      }
+   }
+   set_name ( n, templdata )
+   {
+      if ( this.data.length > n ) 
+      {  
+         this.data[n]['name'] = templdata;
+      }
+   }
+   
+   delete ( n )
+   {
+      if ( this.data.length > n ) 
+      {  
+         this.data.splice( n , 1 );
+      }
+   }
+
+   newtemplate( name ) 
+   {
+      var index = this.data.length;
+      this.data.push( this.templates_skeleton );
       this.data[ index ][ 'uuid' ] = this.generateUUID();
-      return index;
+      var newname = name;
+      if ( newname == "" ) newname = "Last added template " + index;
+      this.data[ index ][ 'name' ] = newname;
+      return this.data.length;
    }
    
    generateUUID() 
@@ -114,6 +158,34 @@ class templatePool
           }
           return (c === 'x' ? r : (r & 0x3 | 0x8)).toString(16);
       });
+  }
+
+   utf8_hex (str) {
+      return Array.from(str).map(c => 
+      c.charCodeAt(0) < 128 ? c.charCodeAt(0).toString(16).padStart(2, '0') :
+      encodeURIComponent(c).replace(/\%/g,'').toLowerCase()
+      ).join('');
+   }
+ 
+   hex_utf8 (hex) {
+      return decodeURIComponent('%' + hex.match(/.{1,2}/g).join('%'));
+   }
+
+  generateMainMenu() 
+  {
+   var outp='';
+   for ( var i = 0; i< this.data.length; i++)
+   {
+      outp += '<div class="templateMenuName">'+ this.data[i]['name'] +'&nbsp;';
+      outp += '</div><div class="templateMenuButtons"><button class="toplevelButton" type="button" onclick="javascript:editTopLevelTemplate(\''+ this.data[i]['uuid'] +'\');">Top-level HTML</button>&nbsp;';
+      outp += '<button class="toplevelButton" type="button" onclick="javascript:editItemTemplate(\''+ this.data[i]['uuid'] +'\');">Item HTML</button>&nbsp;';
+      outp += '<button class="toplevelButton" type="button" onclick="javascript:editDataFields(\''+ this.data[i]['uuid'] +'\');">Data fields</button>&nbsp;';
+      outp += '<button class="toplevelButton" type="button" onclick="javascript:renameTemplate(\''+ this.data[i]['uuid'] +'\');">Rename</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+      outp += '<button class="toplevelButton" type="button" onclick="javascript:deleteTemplate(\''+ this.data[i]['uuid'] +'\');">Delete</button>&nbsp;';
+      outp += '</div><br>';
+   }
+   return outp;
+
   }
   
 }

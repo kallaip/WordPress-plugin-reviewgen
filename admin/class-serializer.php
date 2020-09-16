@@ -36,7 +36,7 @@ class Serializer {
       // If the above are valid, save the option.
       if ( null !== wp_unslash( $_POST['acme-message'] ) ) {
  
-      $value = sanitize_text_field( $_POST['acme-message'] );
+      $value = $_POST['acme-message'];
          update_option( 'reviewgen-custom-data', $value );
   
       }

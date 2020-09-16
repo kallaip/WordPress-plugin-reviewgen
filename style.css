@@ -1,0 +1,82 @@
+/* Modal Header */
+.modal-header {
+   padding: 2px 16px;
+   background-color: #e0F0e0;
+   color: #084408;
+   
+ }
+ 
+ /* Modal Body */
+ .modal-body 
+ {
+    padding: 2px 16px;
+    background-color: #FFFFFF; 
+    text-align: center;
+}
+ 
+ /* Modal Footer */
+ .modal-footer {
+   padding: 2px 16px;
+   background-color: #e0F0e0;
+   color: #084408;
+   text-align: left;
+ }
+
+ .modal-frame {
+   text-align: left;
+   width: 60%;
+   margin: 0 auto;
+   margin-top: 40px;
+ }
+ 
+ .modal-frame-small {
+  text-align: left;
+  width: 30%;
+  margin: 0 auto;
+  margin-top: 40px;
+}
+
+ .modal-content {
+   display: none; 
+   position: fixed;
+   z-index: 1; 
+   left: 0;
+   top: 0;
+   width: 100%; 
+   height: 100%; 
+   overflow: auto; 
+
+   background-color: rgba(0, 0, 0, 0.4); 
+   animation-name: animatetop;
+   animation-duration: 0.4s;
+ }
+ /* Add Animation */
+ @keyframes animatetop {
+   from {top: -300px; opacity: 0}
+   to {top: 0; opacity: 1}
+ }
+ .close
+ {
+    float: right;
+    width: 100%;
+    font-weight: bold;
+    font-size: 1.5em;
+    text-align: right;
+ }
+ .fieldname_div 
+ {
+   display: inline-block;
+ }
+ .fieldnumber_div 
+ {
+   display: inline-block;
+ }
+ .templateMenuName
+ {
+   width: 30%;
+   display: inline-block;
+ }
+ .templateMenuButtons
+ {
+   display: inline-block;
+ }
