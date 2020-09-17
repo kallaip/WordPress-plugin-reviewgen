@@ -41,7 +41,7 @@ class templatePool
       } 
       else
       {
-         this.datapush( this.templates_skeleton );
+         this.data.push( this.templates_skeleton );
          this.data[0]['uuid'] = this.generateUUID();
       }
 
