@@ -229,6 +229,52 @@ function generateFieldDisplay()
    
    return outp;
 }
+function csvExamine(data)
+{
+   var outp = "";
+   var d = data['data'];
+   var rows = d.length;
+   var cols = 0;
+   
+   if ( rows > 0 )
+   {
+      cols = d[0].length; 
+   
+      outp += "This csv contains " + rows + " rows and " + cols + " columns.";
+      if ( cols > 0 )
+      {
+         outp += "Contents of the first row:";
+         for ( var i = 0; i < cols; i++ )
+         {
+            outp+="<br><b>Column " + i + ": </b>" + d[0][i];
+         }
+         outp+="<br>";
+      }
+   }
+   
+   document.getElementById( "reviewgen-pased-data" ).innerHTML = outp;
+   
+}
+
+function readSingleFile(e) 
+{
+   var file = e.target.files[0];
+   if (!file) 
+   {
+     return;
+   }
+   var reader = new FileReader();
+   reader.onload = function(e) 
+   {
+     var csv = e.target.result;
+     var csvData = Papa.parse(csv);
+     console.log ("    Data:", csvData);
+     csvExamine(csvData);
+   };
+   reader.readAsText(file);
+}
+
+document.getElementById('file-input').addEventListener('change', readSingleFile, false);
 
 document.getElementById( "reviewgen-templatelist" ).innerHTML = templates.generateMainMenu();
 

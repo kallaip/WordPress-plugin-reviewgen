@@ -6,6 +6,8 @@
     wp_enqueue_script('reviewgen-template-pool');
     wp_register_script('reviewgen-template', plugin_dir_url(__FILE__) . '../../script/template.js', array('jquery'), '1.0', false);
     wp_enqueue_script('reviewgen-template');
+    wp_register_script('reviewgen-csv-parser', plugin_dir_url(__FILE__) . '../../script/papaparse.min.js', array('jquery'), '1.0', false);
+    wp_enqueue_script('reviewgen-csv-parser');
     wp_register_style( 'reviewgen-style', plugins_url('../../style.css', __FILE__), false, '1.0.0', 'all');
     wp_enqueue_style( 'reviewgen-style' );
 ?>
@@ -111,4 +113,8 @@
 
 <br>
 <button class="toplevelButton" type="button" onclick="javascript:addTemplate();">Add new template</button>&nbsp;with name: <input name="newTemplateName" id="newTemplateName" value="Last added template">
+<br>Select csv file: <input type="file" id="file-input" />
+<br>Processed csv:<br>
+<div id="reviewgen-pased-data"></div>
+
 </div><!-- .wrap -->
