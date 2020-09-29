@@ -115,6 +115,6 @@
 <button class="toplevelButton" type="button" onclick="javascript:addTemplate();">Add new template</button>&nbsp;with name: <input name="newTemplateName" id="newTemplateName" value="Last added template">
 <br>Select csv file: <input type="file" id="file-input" />
 <br>Processed csv:<br>
-<div id="reviewgen-pased-data"></div>
+<div id="reviewgen-parsed-data"></div>
 
 </div><!-- .wrap -->

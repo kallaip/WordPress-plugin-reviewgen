@@ -214,6 +214,14 @@ function deleteTemplate( uuid )
    deleteModal.style.display = "block";
 }
 
+function generatePost()
+{
+   var e = document.getElementById("reviewgen-template-select");
+   var uuid = e.options[e.selectedIndex].value;
+   document.getElementById( "reviewgen-parsed-data" ).innerHTML +='<br><b>' + uuid + '<br>';
+}
+
+
 function generateFieldDisplay()
 {
    var len = editedFieldList.length;
@@ -248,11 +256,13 @@ function csvExamine(data)
          {
             outp+="<br><b>Column " + i + ": </b>" + d[0][i];
          }
-         outp+="<br>";
+         outp+="<br>Select a template:<br>";
+         outp += templates.generateSelectBox();
+         
       }
    }
    
-   document.getElementById( "reviewgen-pased-data" ).innerHTML = outp;
+   document.getElementById( "reviewgen-parsed-data" ).innerHTML = outp;
    
 }
 

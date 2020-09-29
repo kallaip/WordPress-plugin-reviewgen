@@ -187,5 +187,15 @@ class templatePool
    return outp;
 
   }
+  generateSelectBox ()
+  {
+      var outp='<select id="reviewgen-template-select">'
+      for ( var i = 0; i< this.data.length; i++)
+      {
+         outp+='<option value="' + this.data[i]['uuid'] + '">' + this.data[i]['name'] +'</option>';
+      }
+      outp+='</select><button class="goButton" type="button" onclick="javascript:generatePost();">Generate post</button>&nbsp;';
+      return outp;
+  }
   
 }
