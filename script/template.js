@@ -226,29 +226,38 @@ function generatePost()
    var d = csvData['data'];
    var rows = d.length;
    var cols = 0;
-   
+   console.log ("rows:" + rows);
    if ( index != undefined )
    {
+      toplevel = templates.template( index )['toplevel'];
       item = templates.template( index )['recurring'];
+      console.log ("item:" + item);
       if ( rows > 1 )  // do the replacing only if there is at least one more row after the headings 
       {
-         for ( var r = 1; r < rows; r++)
+         for ( var row = 1; row < rows; row++)
          {
             item = templates.template( index )['recurring'];
-            cols = d[r].length;
-            for ( var c = 0; c < cols; c++)
+            cols = d[row].length;
+            console.log ("cols:" + cols);
+            for ( var col = 0; col < cols; col++)
             {
-               var fieldName = templates.fieldNameByColumn( index, c );
-               if ( fieldName.length > 0 )
+               var fieldName = templates.fieldNameByColumn( index, col );
+               if ( fieldName != undefined &&  fieldName.length > 0 )
                {
-                  //replace
+                  var rstr = "<!--[" + fieldName + "]-->";
+                  console.log ("rstr:" + rstr);
+                  item = item.replace (rstr, d[row][col]);
                }
             }
+            outp += item;
          }
 
       }
 
    }
+   outp = toplevel.replace ("<!--[items]-->", outp);
+   console.log ("outp:" + outp);
+   document.getElementById( "reviewgen-parsed-data" ).innerHTML ='<br><pre>' + outp + '</pre>';
 }
 
 function generateFieldDisplay()

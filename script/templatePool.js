@@ -86,9 +86,9 @@ class templatePool
       return undefined;
    }
    
-   fieldNameByColumn (n, col)
+   fieldNameByColumn ( n, col )
    {
-      for ( var i= 0; i< this.data.length; i++)
+      for ( var i = 0; i < this.data[n]['fields'].length; i++)
       {
          if ( this.data[n]['fields'][i]['field_col'] == col )
          {
