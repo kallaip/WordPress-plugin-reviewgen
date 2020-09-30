@@ -85,6 +85,18 @@ class templatePool
       }
       return undefined;
    }
+   
+   fieldNameByColumn (n, col)
+   {
+      for ( var i= 0; i< this.data.length; i++)
+      {
+         if ( this.data[n]['fields'][i]['field_col'] == col )
+         {
+            return this.data[n]['fields'][i]['field_name'];
+         }
+      }
+      return undefined;
+   }
 
    set_template ( n, templdata )
    {

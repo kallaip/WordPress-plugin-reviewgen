@@ -1,6 +1,7 @@
 dataLoaded =  document.getElementById( "acme-message" ).value;
 templates = new templatePool( dataLoaded );
 
+var csvData = undefined;
 var editedIndex = undefined;
 var editedFieldList = [];
 var defaultFieldList = [
@@ -219,8 +220,36 @@ function generatePost()
    var e = document.getElementById("reviewgen-template-select");
    var uuid = e.options[e.selectedIndex].value;
    document.getElementById( "reviewgen-parsed-data" ).innerHTML +='<br><b>' + uuid + '<br>';
-}
+   var index = templates.searchByUUID(uuid);
+   var outp = "";
+   var item = "";
+   var d = csvData['data'];
+   var rows = d.length;
+   var cols = 0;
+   
+   if ( index != undefined )
+   {
+      item = templates.template( index )['recurring'];
+      if ( rows > 1 )  // do the replacing only if there is at least one more row after the headings 
+      {
+         for ( var r = 1; r < rows; r++)
+         {
+            item = templates.template( index )['recurring'];
+            cols = d[r].length;
+            for ( var c = 0; c < cols; c++)
+            {
+               var fieldName = templates.fieldNameByColumn( index, c );
+               if ( fieldName.length > 0 )
+               {
+                  //replace
+               }
+            }
+         }
 
+      }
+
+   }
+}
 
 function generateFieldDisplay()
 {
@@ -277,7 +306,7 @@ function readSingleFile(e)
    reader.onload = function(e) 
    {
      var csv = e.target.result;
-     var csvData = Papa.parse(csv);
+     csvData = Papa.parse(csv);
      console.log ("    Data:", csvData);
      csvExamine(csvData);
    };
