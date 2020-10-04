@@ -117,4 +117,20 @@
 <br>Processed csv:<br>
 <div id="reviewgen-parsed-data"></div>
 
+<div id="reviewgen-post-editor">
+<?php
+$settings = array(
+    'tinymce'       => array(
+        'setup' => 'function (ed) {
+            tinymce.documentBaseURL = "' . get_admin_url() . '";
+        }',
+    ),
+    'quicktags'     => TRUE,
+    'editor_class'  => 'frontend-article-editor',
+    'textarea_rows' => 25,
+    'media_buttons' => TRUE,
+);
+wp_editor( "Generated Post will come here", 'reviewgen-article-content', $settings ); 
+?>
+</div>
 </div><!-- .wrap -->

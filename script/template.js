@@ -257,7 +257,9 @@ function generatePost()
    }
    outp = toplevel.replace ("<!--[items]-->", outp);
    console.log ("outp:" + outp);
-   document.getElementById( "reviewgen-parsed-data" ).innerHTML ='<br><pre>' + outp + '</pre>';
+   //document.getElementById( "reviewgen-article-content" ).innerHTML =outp;
+   tmce_setContent( outp, "reviewgen-article-content" );
+   tmce_focus( "reviewgen-article-content" )
 }
 
 function generateFieldDisplay()
@@ -275,6 +277,29 @@ function generateFieldDisplay()
    
    return outp;
 }
+function tmce_setContent(content, editor_id, textarea_id) {
+   if ( typeof editor_id == 'undefined' ) editor_id = wpActiveEditor;
+   if ( typeof textarea_id == 'undefined' ) textarea_id = editor_id;
+   
+   if ( jQuery('#wp-'+editor_id+'-wrap').hasClass('tmce-active') && tinyMCE.get(editor_id) ) {
+     return tinyMCE.get(editor_id).setContent(content);
+   }else{
+     return jQuery('#'+textarea_id).val(content);
+   }
+ }
+ 
+ function tmce_focus(editor_id, textarea_id) {
+   if ( typeof editor_id == 'undefined' ) editor_id = wpActiveEditor;
+   if ( typeof textarea_id == 'undefined' ) textarea_id = editor_id;
+   
+   if ( jQuery('#wp-'+editor_id+'-wrap').hasClass('tmce-active') && tinyMCE.get(editor_id) ) {
+     return tinyMCE.get(editor_id).focus();
+   }else{
+     return jQuery('#'+textarea_id).focus();
+   }
+ }
+ 
+
 function csvExamine(data)
 {
    var outp = "";
