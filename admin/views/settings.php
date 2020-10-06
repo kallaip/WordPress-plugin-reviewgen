@@ -6,6 +6,10 @@
     wp_enqueue_script('reviewgen-template-pool');
     wp_register_script('reviewgen-template', plugin_dir_url(__FILE__) . '../../script/template.js', array('jquery'), '1.0', false);
     wp_enqueue_script('reviewgen-template');
+    wp_localize_script( 'reviewgen-template', 'my_restapi_details', array(
+      'rest_url' => esc_url_raw( rest_url() ),
+      'nonce' => wp_create_nonce( 'wp_rest' )
+  ) );
     wp_register_script('reviewgen-csv-parser', plugin_dir_url(__FILE__) . '../../script/papaparse.min.js', array('jquery'), '1.0', false);
     wp_enqueue_script('reviewgen-csv-parser');
     wp_register_style( 'reviewgen-style', plugins_url('../../style.css', __FILE__), false, '1.0.0', 'all');
@@ -113,8 +117,8 @@
 
 <br>
 <button class="toplevelButton" type="button" onclick="javascript:addTemplate();">Add new template</button>&nbsp;with name: <input name="newTemplateName" id="newTemplateName" value="Last added template">
-<br>Select csv file: <input type="file" id="file-input" />
-<br>Processed csv:<br>
+<br><br>Select csv file: <input type="file" id="file-input" />
+<br><br>
 <div id="reviewgen-parsed-data"></div>
 
 <div id="reviewgen-post-editor">
@@ -132,5 +136,8 @@ $settings = array(
 );
 wp_editor( "Generated Post will come here", 'reviewgen-article-content', $settings ); 
 ?>
+<br><input name="reviewgen-post-title" id="reviewgen-post-title" value="Write post title here"><button class="toplevelButton" type="button" onclick="javascript:savePost('publish');">Publish post</button>
+<button class="toplevelButton" type="button" onclick="javascript:savePost('draft');">Save post to drafts</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 </div>
+
 </div><!-- .wrap -->

@@ -262,6 +262,41 @@ function generatePost()
    tmce_focus( "reviewgen-article-content" )
 }
 
+function savePost( mode ) 
+{
+   var postParams = 
+   {
+      method: "POST",
+      url: my_restapi_details.rest_url + 'wp/v2/posts',
+      data: 
+      {
+          title: 'Default Post Title',
+          content: '[my_sample_shortcode]',
+          type: 'post',
+          status: 'publish',
+      },
+      beforeSend: function ( xhr ) 
+      {
+          xhr.setRequestHeader( 'X-WP-Nonce', my_restapi_details.nonce );
+      },
+      success : function( response ) 
+      {
+          // Save the post ID in case you need it for something
+          var myNewPostID = response.id;
+      }
+  };
+  postParams['data']['content'] =  tmce_getContent( "reviewgen-article-content" );
+  postParams['data']['status'] = mode;
+  if ( document.getElementById( "reviewgen-post-title").value != "" )
+  {
+      postParams['data']['title'] = document.getElementById( "reviewgen-post-title").value;
+  }
+  jQuery.ajax( postParams );
+
+   document.getElementById( "reviewgen-parsed-data" ).innerHTML += myNewPostID;
+}
+
+
 function generateFieldDisplay()
 {
    var len = editedFieldList.length;
@@ -277,6 +312,18 @@ function generateFieldDisplay()
    
    return outp;
 }
+
+function tmce_getContent(editor_id, textarea_id) {
+   if ( typeof editor_id == 'undefined' ) editor_id = wpActiveEditor;
+   if ( typeof textarea_id == 'undefined' ) textarea_id = editor_id;
+   
+   if ( jQuery('#wp-'+editor_id+'-wrap').hasClass('tmce-active') && tinyMCE.get(editor_id) ) {
+     return tinyMCE.get(editor_id).getContent();
+   }else{
+     return jQuery('#'+textarea_id).val();
+   }
+ }
+
 function tmce_setContent(content, editor_id, textarea_id) {
    if ( typeof editor_id == 'undefined' ) editor_id = wpActiveEditor;
    if ( typeof textarea_id == 'undefined' ) textarea_id = editor_id;
